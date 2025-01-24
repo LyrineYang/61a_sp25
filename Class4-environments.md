@@ -1,3 +1,4 @@
+
 # Class4-environments
 
 ## 高阶函数的环境
@@ -108,11 +109,11 @@ composel(square,make_adder(2))(3)
 
 1. 计算operator：composel(square,make_adder(2))
 
-2. 计算make_adder(2)，创建localframe f1，并创建返回函数adder，n被绑定到2，parent为f1
+2. 计算make_adder(2)，创建local-frame f1，并创建返回函数adder，n被绑定到2，parent为f1
 
-3. 计算composel，创建localframe f2，创建函数h，parent为f2
+3. 计算composel，创建local-frame f2，创建函数h，parent为f2
 
-4. operator计算完成，调用h函数，创建localframe f3，parent为f2，x被绑定到3
+4. operator计算完成，调用h函数，创建local-frame f3，parent为f2，x被绑定到3
 
 5. 计算adder函数，创建f4，parent为f1，将k绑定到3，返回值5
 
@@ -120,4 +121,86 @@ composel(square,make_adder(2))(3)
 
    ![image-20250124211123278](/Users/nianzhen/Library/Application Support/typora-user-images/image-20250124211123278.png)
 
-lamda expressions
+## lambda expressions
+
+是对函数求值的表达式（也就是定义函数的过程），用于动态**创建匿名函数**
+
+```python
+square=lambda x: x*x
+```
+
+可以通过**直接写函数体**的方式定义函数，格式如下：
+
+```python
+lambda x: x*x
+```
+
+1. lambda关键字：类似def，但此时不需要函数名
+2. lambda后跟形式参数x
+3. 冒号后相当于：return values of x*x
+
+本质是一个**计算结果为函数的表达式！**
+
+**important: no “return” keyword!**，这也限制了只能使用一个表达式作为lambda函数body
+
+lambda 表达式在python中并不是非常常见，但对于函数式编程非常重要
+
+lambda表达式不能包含语句：如不能在lambda表达式中写while
+
+### lambda与def的异同
+
+```python
+square=lambda x: x*x
+def square(x):
+    return x*x
+```
+
+相同点：
+
+1. 都创建有相同域，范围和行为的函数
+2. 都有父级框架，即定义函数时所在的框架
+3. 将函数与名字绑定：**lambda先创建匿名函数再赋值**，在def语句中，函数创建和绑定名字是一起发生的
+
+不同之处：**只有def语句为函数提供了内在名称**，当在解释器中查询时：用lambda定义的函数会显示函数名为 `<lambda>`，用def定义函数则可查询出def时绑定的名字。事实上是细微的差异
+
+## 函数currying（柯里化）
+
+是一种操作函数的方法：
+
+使用lambda创造make_adder函数：
+
+```python
+def make_adder(n):
+    return lambda k: n+k
+```
+
+调用make_adder函数时，我们实际上进行了两次**单参数调用**，包括在过程中返回函数的函数调用，才真正得到答案
+
+而对于add函数，我们只需要接受多个函数并进行一次调用即可得到答案
+
+```python
+def curry2(f):
+    def g(x):
+        def h(y):
+            return f(x,y)
+        return h
+    return g
+```
+
+curry2函数实际上把两参数函数转换成接受单参数的高阶函数（make_adder）
+
+curry2函数也可以利用**lambda表达式表达：更简洁直观**
+
+```python
+curry2 =lambda f : lambda x : lambda y : f(x,y)
+```
+
+currying化就是这样一个过程，允许函数局部只接受一个参数，**将多参数函数转化成单参数高阶函数**，**该高阶函数返回一个利用剩余参数的函数**
+
+### 为什么要使用currying？
+
+1. **灵活性**：通过柯里化，你可以创建更多的局部函数，复用代码并使函数调用更具灵活性。
+
+2. **部分应用**：你可以通过柯里化将一个函数的部分参数固定下来，简化后续调用。
+
+3. **函数式编程**：柯里化是函数式编程的重要概念，促进了函数的组合和复用
