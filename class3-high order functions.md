@@ -140,3 +140,64 @@ sigma2=sum_all(5,cube)
 高阶函数是以另一个（一些）函数作为参数的函数
 
 ## function as return values 将函数作为返回值的函数
+
+函数可以作为返回值意味着**我们可以动态创建新函数**
+
+出现于**函数主体中定义函数的情况**
+
+make_adder函数示例：
+
+```python
+def make_adder(n):
+    """Return a function take argument K and return K+N
+    >>> add_three = make_adder(3)
+    >>> add_three(4)
+    7
+    """
+    def adder(k):
+        return k+n
+    return adder
+```
+
+当一个函数在另一个函数 body 内定义，**创建的函数被绑定到本地框架的名称**，也就是说此时**形成了一个多 local-frame 的 environment**
+
+add_three = make_adder(3):相当于将adder函数赋值给了add_three函数
+
+而此时adder函数中的n被绑定到3，最后调用add_three(4)时：4被绑定到k，返回4+3=7！
+
+图片展示了嵌套定义时实际发生了什么：![55fdd03e5671261d4ee8d795ba738eb](C:\Users\Oscar\Desktop\学习资料\55fdd03e5671261d4ee8d795ba738eb.png)
+
+
+
+### 嵌套定义函数的调用方式
+
+输入make_adder(1)(2)，会发生什么？作为调用函数表达式处理！
+
+**此时make_adder(1)被作为operator，而2被作为operand**！
+
+1. 对operator求值：make_adder(1)，1被绑定到n，**返回adder函数**：
+
+   故对operator求值的结果是body为 return k+1 的adder函数
+
+2. **此时调用函数adder**，将2作为operand直接传入，return 2+1=3
+
+#### operator, operand的定义：
+
+1. operator：任何计算结果为函数的表达式
+2. operand：任何计算结果为值的表达式
+
+### purpose of higher-order functions
+
+#### 函数是一等值
+
+==函数可以作为参数传递，也可以作为返回值返回！！==
+
+#### higher-order functions
+
+高阶函数是以函数作为参数或作为返回值的函数
+
+#### 高阶函数的作用
+
+1. 抽象表达计算方式
+2. 从程序中删除了重复的部分，这也是函数式编程的目的
+3. 分离函数间的不同功能
