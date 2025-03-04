@@ -37,9 +37,9 @@ def pick(paragraphs, select, k):
     ''
     """
     # BEGIN PROBLEM 1
-    lists=[paragraphs[i] for i in range(len(paragraphs)) if select(paragraphs[i])]
+    lists = [paragraphs[i] for i in range(len(paragraphs)) if select(paragraphs[i])]
     if k >= len(lists):
-        return ''
+        return ""
     else:
         return lists[k]
 
@@ -63,13 +63,14 @@ def about(keywords):
 
     # BEGIN PROBLEM 2
     def contains(paragraph):
-        paragraph=remove_punctuation(paragraph)
-        lists=split(paragraph)
+        paragraph = remove_punctuation(paragraph)
+        lists = split(paragraph)
         for i in range(len(lists)):
             for j in range(len(keywords)):
-                if lower(keywords[j])==lower(lists[i]):
+                if lower(keywords[j]) == lower(lists[i]):
                     return True
         return False
+
     return contains
     # END PROBLEM 2
 
@@ -100,16 +101,16 @@ def accuracy(typed, source):
     typed_words = split(typed)
     source_words = split(source)
     # BEGIN PROBLEM 3
-    count=0
-    if len(source_words)==0 and len(typed_words)==0:
+    count = 0
+    if len(source_words) == 0 and len(typed_words) == 0:
         return 100.0
-    elif len(source_words)==0 or len(typed_words)==0:
+    elif len(source_words) == 0 or len(typed_words) == 0:
         return 0.0
     else:
-        for i in range(min(len(source_words),len(typed_words))):
-            if typed_words[i]==source_words[i]:
-                count+=1
-    return (count/len(typed_words))*100
+        for i in range(min(len(source_words), len(typed_words))):
+            if typed_words[i] == source_words[i]:
+                count += 1
+    return (count / len(typed_words)) * 100
     # END PROBLEM 3
 
 
@@ -127,7 +128,7 @@ def wpm(typed, elapsed):
     """
     assert elapsed > 0, "Elapsed time must be positive"
     # BEGIN PROBLEM 4
-    return (len(typed)/5)*(60/elapsed)
+    return (len(typed) / 5) * (60 / elapsed)
     # END PROBLEM 4
 
 
@@ -141,7 +142,9 @@ def memo(f):
     cache = {}
 
     def memoized(*args):
-        immutable_args = deep_convert_to_tuple(args)  # convert *args into a tuple representation
+        immutable_args = deep_convert_to_tuple(
+            args
+        )  # convert *args into a tuple representation
         if immutable_args not in cache:
             result = f(*immutable_args)
             cache[immutable_args] = result
@@ -188,16 +191,16 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    gap_number=[]
+    gap_number = []
     for i in range(len(word_list)):
-        if word_list[i]==typed_word:
+        if word_list[i] == typed_word:
             return typed_word
-        gap_number += [abs(diff_function(typed_word,word_list[i],limit))]
+        gap_number += [abs(diff_function(typed_word, word_list[i], limit))]
     for i in range(len(gap_number)):
-        if gap_number[i]==min(gap_number):
-            min_index=i
+        if gap_number[i] == min(gap_number):
+            min_index = i
             break
-    if min(gap_number)>limit:
+    if min(gap_number) > limit:
         return typed_word
     else:
         return word_list[min_index]
@@ -227,23 +230,23 @@ def furry_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    count=0
-    if typed==source:
+    count = 0
+    if typed == source:
         return 0
-    elif len(typed)==0 or len(source)==0:
-        if count>limit:
+    elif len(typed) == 0 or len(source) == 0:
+        if count > limit:
             return 0
-        count+=len(typed)+len(source)
-        return len(typed)+len(source)
-    elif typed[0]==source[0]:
-        if count>limit:
+        count += len(typed) + len(source)
+        return len(typed) + len(source)
+    elif typed[0] == source[0]:
+        if count > limit:
             return 0
-        return furry_fixes(typed[1:],source[1:],limit)
+        return furry_fixes(typed[1:], source[1:], limit)
     else:
-        if count>limit:
+        if count > limit:
             return 0
-        count+=1
-        return 1+furry_fixes(typed[1:],source[1:],limit-1)
+        count += 1
+        return 1 + furry_fixes(typed[1:], source[1:], limit - 1)
     # END PROBLEM 6
 
 
@@ -264,25 +267,29 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    if limit<0:
+    if limit < 0:
         return 1
-    if typed==source: # Base cases should go here, you may add more base cases as needed.
+    if (
+        typed == source
+    ):  # Base cases should go here, you may add more base cases as needed.
         # BEGIN
         return 0
         # END
     # Recursive cases should go below here
-    if len(typed)==0 or len(source)==0: # Feel free to remove or add additional cases
-        limit-=len(typed)+len(source)
-        return len(typed)+len(source)
+    if (
+        len(typed) == 0 or len(source) == 0
+    ):  # Feel free to remove or add additional cases
+        limit -= len(typed) + len(source)
+        return len(typed) + len(source)
         # END
-    if typed[0]==source[0]:
-        return minimum_mewtations(typed[1:],source[1:],limit)
+    if typed[0] == source[0]:
+        return minimum_mewtations(typed[1:], source[1:], limit)
     else:
-        add = 1+minimum_mewtations(typed,source[1:],limit-1)
-        remove = 1+minimum_mewtations(typed[1:],source,limit-1)
-        substitute = 1+minimum_mewtations(typed[1:],source[1:],limit-1)
+        add = 1 + minimum_mewtations(typed, source[1:], limit - 1)
+        remove = 1 + minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
         # BEGIN
-        return min(add,remove,substitute)
+        return min(add, remove, substitute)
         # END
 
 
@@ -328,7 +335,16 @@ def report_progress(typed, source, user_id, upload):
     0.2
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    sum = 0
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            sum += 1
+        else:
+            break
+    progress = sum / len(source)
+    d = {"id": user_id, "progress": progress}
+    upload(d)
+    return progress
     # END PROBLEM 8
 
 
@@ -353,8 +369,12 @@ def time_per_word(words, timestamps_per_player):
     tpp = timestamps_per_player  # A shorter name (for convenience)
     # BEGIN PROBLEM 9
     times = []  # You may remove this line
+    for i in range(len(tpp)):
+        times.append([])
+        for j in range(len(tpp[i]) - 1):
+            times[i].append(tpp[i][j + 1] - tpp[i][j])
     # END PROBLEM 9
-    return {'words': words, 'times': times}
+    return {"words": words, "times": times}
 
 
 def fastest_words(words_and_times):
@@ -376,11 +396,20 @@ def fastest_words(words_and_times):
     [4, 1, 6]
     """
     check_words_and_times(words_and_times)  # verify that the input is properly formed
-    words, times = words_and_times['words'], words_and_times['times']
+    words, times = words_and_times["words"], words_and_times["times"]
     player_indices = range(len(times))  # contains an *index* for each player
-    word_indices = range(len(words))    # contains an *index* for each word
+    word_indices = range(len(words))  # contains an *index* for each word
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    player = []
+    list = [[] for _ in range(len(player_indices))]
+    for i in player_indices:
+        player.append(times[i])
+    for i in word_indices:
+        for j in player_indices:
+            if player[j][i] == min([player[k][i] for k in player_indices]):
+                list[j].append(words[i])
+                break
+    return list
     # END PROBLEM 10
 
 
@@ -388,12 +417,20 @@ def check_words_and_times(words_and_times):
     """Check that words_and_times is a {'words': words, 'times': times} dictionary
     in which each element of times is a list of numbers the same length as words.
     """
-    assert 'words' in words_and_times and 'times' in words_and_times and len(words_and_times) == 2
-    words, times = words_and_times['words'], words_and_times['times']
+    assert (
+        "words" in words_and_times
+        and "times" in words_and_times
+        and len(words_and_times) == 2
+    )
+    words, times = words_and_times["words"], words_and_times["times"]
     assert all([type(w) == str for w in words]), "words should be a list of strings"
     assert all([type(t) == list for t in times]), "times should be a list of lists"
-    assert all([isinstance(i, (int, float)) for t in times for i in t]), "times lists should contain numbers"
-    assert all([len(t) == len(words) for t in times]), "There should be one word per time."
+    assert all(
+        [isinstance(i, (int, float)) for t in times for i in t]
+    ), "times lists should contain numbers"
+    assert all(
+        [len(t) == len(words) for t in times]
+    ), "There should be one word per time."
 
 
 def get_time(times, player_num, word_index):
@@ -401,8 +438,12 @@ def get_time(times, player_num, word_index):
     given a list of lists of times returned by time_per_word."""
     num_players = len(times)
     num_words = len(times[0])
-    assert word_index < len(times[0]), f"word_index {word_index} outside of 0 to {num_words-1}"
-    assert player_num < len(times), f"player_num {player_num} outside of 0 to {num_players-1}"
+    assert word_index < len(
+        times[0]
+    ), f"word_index {word_index} outside of 0 to {num_words-1}"
+    assert player_num < len(
+        times
+    ), f"player_num {player_num} outside of 0 to {num_players-1}"
     return times[player_num][word_index]
 
 
