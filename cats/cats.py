@@ -102,9 +102,9 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     count = 0
-    if len(source_words) == 0 and len(typed_words) == 0:
+    if not source_words and not typed_words:
         return 100.0
-    elif len(source_words) == 0 or len(typed_words) == 0:
+    if not source_words or not typed_words:
         return 0.0
     else:
         for i in range(min(len(source_words), len(typed_words))):
@@ -399,7 +399,7 @@ def fastest_words(words_and_times):
     words, times = words_and_times["words"], words_and_times["times"]
     player_indices = range(len(times))  # contains an *index* for each player
     word_indices = range(len(words))  # contains an *index* for each word
-    # BEGIN PROBLEM 10
+    # BEGIN PROBLEM 10·
     player = []
     list = [[] for _ in range(len(player_indices))]
     for i in player_indices:
