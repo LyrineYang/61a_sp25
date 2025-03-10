@@ -89,10 +89,10 @@ class BankAccount:
         """
         if amount > self.balance:
             self.transactions.append(Transaction(self.id_count,self.balance,self.balance ))
-            self.id_count+=1
+            self.id_count += 1
             return 'Insufficient funds'
         self.transactions.append(Transaction(self.id_count,self.balance,self.balance - amount))
-        self.id_count+=1
+        self.id_count += 1
         self.balance = self.balance - amount
         return self.balance
 
