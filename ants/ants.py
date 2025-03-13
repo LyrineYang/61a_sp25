@@ -158,7 +158,7 @@ class HarvesterAnt(Ant):
         gamestate -- The GameState, used to access game state information.
         """
         # BEGIN Problem 1
-        gamestate.food += 1
+        gamestate.food += 1  # HarvesterAnt get food
         # END Problem 1
 
 
@@ -178,23 +178,21 @@ class ThrowerAnt(Ant):
 
         This method returns None if there is no such Bee (or none in range).
         """
-        # BEGIN Problem 3 and 4
         now_place = self.place
         i = 0
 
-        while i < self.lower_bound:
+        while i < self.lower_bound:  # to jump instance
             if now_place.is_hive:
                 break
             now_place = now_place.entrance
             i += 1
 
-        while i <= self.upper_bound and not now_place.is_hive:
+        while i <= self.upper_bound and not now_place.is_hive:  # search in range
             if now_place.bees != []:
                 return random_bee(now_place.bees)
             now_place = now_place.entrance
             i += 1
         return None
-        # END Problem 3 and 4
 
     def throw_at(self, target):
         """Throw a leaf at the target Bee, reducing its health."""
@@ -226,9 +224,7 @@ class ShortThrower(ThrowerAnt):
     name = "Short"
     food_cost = 2
     upper_bound = 3
-    # BEGIN Problem 4
-    implemented = True  # Change to True to view in the GUI
-    # END Problem 4
+    implemented = True
 
 
 class LongThrower(ThrowerAnt):
@@ -237,9 +233,7 @@ class LongThrower(ThrowerAnt):
     name = "Long"
     food_cost = 2
     lower_bound = 5
-    # BEGIN Problem 4
-    implemented = True  # Change to True to view in the GUI
-    # END Problem 4
+    implemented = True
 
 
 class FireAnt(Ant):
@@ -250,7 +244,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -265,7 +259,13 @@ class FireAnt(Ant):
         the additional damage if the fire ant dies.
         """
         # BEGIN Problem 5
-
+        total_damage = amount
+        now_place = self.place
+        Ant.reduce_health(self, amount)
+        if now_place.ant is None:
+            total_damage += self.damage
+        for bee in list(now_place.bees):
+            Ant.reduce_health(bee, total_damage)
         # END Problem 5
 
 
@@ -281,8 +281,14 @@ class WallAnt(Ant):
 
 # END Problem 6
 
+
 # BEGIN Problem 7
-# The HungryAnt Class
+class HungryAnt(Ant):
+    name = "Hungry"
+    food_cost = 4
+    implemented = False  # should be changed to True after completion
+
+
 # END Problem 7
 
 
