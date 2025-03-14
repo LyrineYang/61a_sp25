@@ -25,11 +25,8 @@ class Place:
         self.bees = []  # A list of Bees
         self.ant = None  # An Ant
         self.entrance = None  # A Place
-        # Phase 1: Add an entrance to the exit
-        # BEGIN Problem 2
         if self.exit != None:
             self.exit.entrance = self
-        # END Problem 2
 
     def add_insect(self, insect):
         """Asks the insect to add itself to this place. This method exists so
@@ -124,9 +121,13 @@ class Ant(Insect):
         if place.ant is None:
             place.ant = self
         else:
-            # BEGIN Problem 8b
-            assert place.ant is None, "Too many ants in {0}".format(place)
-            # END Problem 8b
+            if self.can_contain(place.ant):
+                self.store_ant(place.ant)
+                place.ant = self
+            elif place.ant.can_contain(self):
+                place.ant.store_ant(self)
+            else:
+                assert place.ant is None, "Too many ants in {0}".format(place)
         Insect.add_to(self, place)
 
     def remove_from(self, place):
@@ -260,13 +261,11 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         total_damage = amount
-        now_place = self.place
-        Ant.reduce_health(self, amount)
-        if now_place.ant is None:
+        if amount >= self.health:
             total_damage += self.damage
-        for bee in list(now_place.bees):
+        for bee in list(self.place.bees):
             Ant.reduce_health(bee, total_damage)
-        # END Problem 5
+        Ant.reduce_health(self, amount)
 
 
 # BEGIN Problem 6
@@ -286,7 +285,22 @@ class WallAnt(Ant):
 class HungryAnt(Ant):
     name = "Hungry"
     food_cost = 4
-    implemented = False  # should be changed to True after completion
+    implemented = True  # should be changed to True after completion
+    chew_cooldown = 3
+
+    def __init__(self, health=1):
+        super().__init__(health)
+        self.cooldown = 0
+
+    def action(self, gamestate):
+        if self.cooldown:
+            self.cooldown -= 1
+        else:
+            if not self.place.bees:
+                return None
+            unlucky_bee = random_bee(self.place.bees)
+            Insect.reduce_health(unlucky_bee, unlucky_bee.health)
+            self.cooldown = self.chew_cooldown
 
 
 # END Problem 7
@@ -305,12 +319,14 @@ class ContainerAnt(Ant):
 
     def can_contain(self, other):
         # BEGIN Problem 8a
-        "*** YOUR CODE HERE ***"
+        if self.ant_contained is None and not other.is_container:
+            return True
+        return False
         # END Problem 8a
 
     def store_ant(self, ant):
         # BEGIN Problem 8a
-        "*** YOUR CODE HERE ***"
+        self.ant_contained = ant
         # END Problem 8a
 
     def remove_ant(self, ant):
@@ -329,9 +345,8 @@ class ContainerAnt(Ant):
             Ant.remove_from(self, place)
 
     def action(self, gamestate):
-        # BEGIN Problem 8a
-        "*** YOUR CODE HERE ***"
-        # END Problem 8a
+        if self.ant_contained is not None:
+            self.ant_contained.action(gamestate)
 
 
 class ProtectorAnt(ContainerAnt):
@@ -341,12 +356,29 @@ class ProtectorAnt(ContainerAnt):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
+
     # END Problem 8c
+    def __init__(self, health=2):
+        super().__init__(health)
 
 
 # BEGIN Problem 9
-# The TankAnt class
+class TankAnt(ContainerAnt):
+    name = "Tank"
+    food_cost = 6
+    implemented = True  # change to True after finish
+    damage = 1
+
+    def __init__(self, health=2):
+        super().__init__(health)
+
+    def action(self, gamestate):
+        ContainerAnt.action(self, gamestate)
+        for bee in self.place.bees[:]:
+            bee.reduce_health(self.damage)
+
+
 # END Problem 9
 
 
