@@ -107,6 +107,7 @@ class Ant(Insect):
 
     def __init__(self, health=1):
         super().__init__(health)
+        self.is_doubled = False
 
     def can_contain(self, other):
         return False
@@ -141,9 +142,9 @@ class Ant(Insect):
 
     def double(self):
         """Double this ants's damage, if it has not already been doubled."""
-        # BEGIN Problem 12
-        "*** YOUR CODE HERE ***"
-        # END Problem 12
+        if not self.is_doubled:
+            self.damage = 2 * self.damage
+            self.is_doubled = True
 
 
 class HarvesterAnt(Ant):
@@ -396,7 +397,13 @@ class Water(Place):
 
 
 # BEGIN Problem 11
-# The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = "Scuba"
+    food_cost = 6
+    is_waterproof = True
+    implemented = True
+
+
 # END Problem 11
 
 
@@ -405,26 +412,33 @@ class QueenAnt(ThrowerAnt):
 
     name = "Queen"
     food_cost = 7
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 12
-    implemented = False  # Change to True to view in the GUI
-    # END Problem 12
+    implemented = True
 
     def action(self, gamestate):
         """A queen ant throws a leaf, but also doubles the damage of ants
         in her tunnel.
         """
         # BEGIN Problem 12
-        "*** YOUR CODE HERE ***"
-        # END Problem 12
+        ThrowerAnt.action(self, gamestate)
+        now_place = self.place
+
+        while now_place.exit is not None:
+            now_place = now_place.exit
+            if now_place.ant is not None:
+                if (
+                    now_place.ant.is_container
+                    and now_place.ant.ant_contained is not None
+                ):
+                    now_place.ant.ant_contained.double()
+                now_place.ant.double()
 
     def reduce_health(self, amount):
         """Reduce health by AMOUNT, and if the QueenAnt has no health
         remaining, signal the end of the game.
         """
-        # BEGIN Problem 12
-        "*** YOUR CODE HERE ***"
-        # END Problem 12
+        Insect.reduce_health(self, amount)
+        if amount >= self.health:
+            ants_lose()
 
 
 ################
