@@ -103,7 +103,7 @@ class Ant(Insect):
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
     is_container = False
-    # ADD CLASS ATTRIBUTES HERE
+    # ADD CLASS ATTRIBUTES HERE for opt1
 
     def __init__(self, health=1):
         super().__init__(health)
@@ -159,9 +159,7 @@ class HarvesterAnt(Ant):
 
         gamestate -- The GameState, used to access game state information.
         """
-        # BEGIN Problem 1
         gamestate.food += 1  # HarvesterAnt get food
-        # END Problem 1
 
 
 class ThrowerAnt(Ant):
@@ -180,19 +178,17 @@ class ThrowerAnt(Ant):
 
         This method returns None if there is no such Bee (or none in range).
         """
-        now_place = self.place
+        current_place = self.place
         i = 0
 
-        while i < self.lower_bound:  # to jump instance
-            if now_place.is_hive:
-                break
-            now_place = now_place.entrance
+        while i < self.lower_bound and not current_place.is_hive:  # to jump instance
+            current_place = current_place.entrance
             i += 1
 
-        while i <= self.upper_bound and not now_place.is_hive:  # search in range
-            if now_place.bees != []:
-                return random_bee(now_place.bees)
-            now_place = now_place.entrance
+        while i <= self.upper_bound and not current_place.is_hive:  # search in range
+            if current_place.bees != []:
+                return random_bee(current_place.bees)
+            current_place = current_place.entrance
             i += 1
         return None
 
@@ -244,10 +240,7 @@ class FireAnt(Ant):
     name = "Fire"
     damage = 3
     food_cost = 5
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 5
     implemented = True  # Change to True to view in the GUI
-    # END Problem 5
 
     def __init__(self, health=3):
         """Create an Ant with a HEALTH quantity."""
@@ -264,11 +257,10 @@ class FireAnt(Ant):
         if amount >= self.health:
             total_damage += self.damage
         for bee in list(self.place.bees):
-            Insect.reduce_health(bee, total_damage)
-        Ant.reduce_health(self, amount)
+            bee.reduce_health(total_damage)
+        super().reduce_health(amount)
 
 
-# BEGIN Problem 6
 class WallAnt(Ant):
     name = "Wall"
     food_cost = 4
@@ -278,10 +270,6 @@ class WallAnt(Ant):
         super().__init__(health)
 
 
-# END Problem 6
-
-
-# BEGIN Problem 7
 class HungryAnt(Ant):
     name = "Hungry"
     food_cost = 4
@@ -299,11 +287,8 @@ class HungryAnt(Ant):
             if not self.place.bees:
                 return None
             unlucky_bee = random_bee(self.place.bees)
-            Insect.reduce_health(unlucky_bee, unlucky_bee.health)
+            unlucky_bee.reduce_health(unlucky_bee.health)
             self.cooldown = self.chew_cooldown
-
-
-# END Problem 7
 
 
 class ContainerAnt(Ant):
@@ -318,11 +303,9 @@ class ContainerAnt(Ant):
         self.ant_contained = None
 
     def can_contain(self, other):
-        # BEGIN Problem 8a
         if self.ant_contained is None and not other.is_container:
             return True
         return False
-        # END Problem 8a
 
     def store_ant(self, ant):
         # BEGIN Problem 8a
@@ -354,8 +337,6 @@ class ProtectorAnt(ContainerAnt):
 
     name = "Protector"
     food_cost = 4
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 8c
     implemented = True  # Change to True to view in the GUI
 
     # END Problem 8c
