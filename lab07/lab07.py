@@ -75,7 +75,7 @@ class FreeChecking(Account):
     withdraw_fee = 1
     free_withdrawals = 2
     def withdraw(self, amount):
-        if self.free_withdrawals > 0:
+        if self.free_withdrawals:
             self.free_withdrawals -= 1
             return super().withdraw(amount)
         else:     
@@ -95,7 +95,11 @@ def without(s, i):
     >>> without(s, 4) is not s  # Make sure a copy is created
     True
     """
-    "*** YOUR CODE HERE ***"
+    if i == 0:
+        return s.rest
+    elif s.rest is not Link.empty:
+        s = Link(s.first,without(s.rest, i-1))
+    return s
 
 
 def duplicate_link(s, val):
@@ -114,7 +118,14 @@ def duplicate_link(s, val):
     >>> z
     Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
     """
-    "*** YOUR CODE HERE ***"
+    if s is Link.empty: 
+        return None
+    if s.first == val:
+        s.rest = Link(val,s.rest)
+        duplicate_link(s.rest.rest,val)
+    else:
+        duplicate_link(s.rest,val)
+    return None
 
 
 class Link:
