@@ -1,4 +1,5 @@
-passphrase = 'REPLACE_THIS_WITH_PASSPHRASE'
+passphrase = "REPLACE_THIS_WITH_PASSPHRASE"
+
 
 def midsem_survey(p):
     """
@@ -7,7 +8,8 @@ def midsem_survey(p):
     '2bf925d47c03503d3ebe5a6fc12d479b8d12f14c0494b43deba963a0'
     """
     import hashlib
-    return hashlib.sha224(p.encode('utf-8')).hexdigest()
+
+    return hashlib.sha224(p.encode("utf-8")).hexdigest()
 
 
 class VendingMachine:
@@ -47,6 +49,7 @@ class VendingMachine:
     >>> w.vend()
     'Here is your soda.'
     """
+
     def __init__(self, product, price):
         """Set the product and its price, as well as other instance attributes."""
         self.product_name = product
@@ -60,9 +63,7 @@ class VendingMachine:
         E.g., Current candy stock: 3
         """
         self.product_stock += n
-        return f'Current {self.product_name} stock: {self.product_stock}'
-
-
+        return f"Current {self.product_name} stock: {self.product_stock}"
 
     def add_funds(self, n):
         """If the machine is out of stock, return a message informing the user to restock
@@ -75,12 +76,10 @@ class VendingMachine:
         E.g., Current balance: $4
         """
         if self.product_stock == 0:
-            return f'Nothing left to vend. Please restock. Here is your ${n}.'
+            return f"Nothing left to vend. Please restock. Here is your ${n}."
         else:
             self.balance += n
-            return f'Current balance: ${self.balance}'
-        
-        
+            return f"Current balance: ${self.balance}"
 
     def vend(self):
         """Dispense the product if there is sufficient stock and funds and
@@ -98,12 +97,12 @@ class VendingMachine:
             change = self.balance - self.price
             self.balance = 0
             if change:
-                return f'Here is your {self.product_name} and ${change} change.'
-            return f'Here is your {self.product_name}.'
+                return f"Here is your {self.product_name} and ${change} change."
+            return f"Here is your {self.product_name}."
         elif self.product_stock == 0:
-            return f'Nothing left to vend. Please restock.'
+            return f"Nothing left to vend. Please restock."
         else:
-            return f'Please add ${self.price - self.balance} more funds.'
+            return f"Please add ${self.price - self.balance} more funds."
 
 
 def store_digits(n):
@@ -125,7 +124,16 @@ def store_digits(n):
     >>> cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
-    "*** YOUR CODE HERE ***"
+    start_link = Link(n % 10, Link.empty)
+
+    def helper(link, n):
+        if n == 0:
+            return link
+        else:
+            link = Link(n % 10, link)
+            return helper(link, n // 10)
+
+    return helper(start_link, n // 10)
 
 
 def deep_map_mut(func, s):
@@ -147,7 +155,16 @@ def deep_map_mut(func, s):
     >>> print(link1)
     <9 <16> 25 36>
     """
-    "*** YOUR CODE HERE ***"
+    if s is Link.empty:
+        return None
+    elif not isinstance(s.first, Link):
+        s.first = func(s.first)
+        deep_map_mut(func, s.rest)
+    else:
+        s.first.first = func(s.first.first)
+        deep_map_mut(func, s.first.rest)
+        deep_map_mut(func, s.rest)
+    return None
 
 
 def prune_small(t, n):
@@ -167,11 +184,13 @@ def prune_small(t, n):
     >>> t3
     Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
     """
-    while ____:
-        largest = max(____, key=____)
+    while sum([1 for _ in t.branches]) > n:
+        largest = max(
+            t.branches, key=lambda b: b.label
+        )  # the usage of lambda function: need a one argument function to return argument's attribute (when the argument is a class instance)
         t.branches.remove(largest)
     for b in t.branches:
-        ____
+        prune_small(b, n)
 
 
 def delete(t, x):
@@ -194,13 +213,13 @@ def delete(t, x):
     Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(6), Tree(7), Tree(8), Tree(4)])
     """
     new_branches = []
-    for _________ in ________________:
-        _______________________
+    for b in t.branches:
+        delete(b, x)
         if b.label == x:
-            __________________________________
+            new_branches += b.branches
         else:
-            __________________________________
-    t.branches = ___________________
+            new_branches.append(b)
+    t.branches = new_branches
 
 
 def two_list(vals, counts):
@@ -244,6 +263,7 @@ class Link:
     >>> print(s)                             # Prints str(s)
     <5 7 <8 9>>
     """
+
     empty = ()
 
     def __init__(self, first, rest=empty):
@@ -253,17 +273,17 @@ class Link:
 
     def __repr__(self):
         if self.rest is not Link.empty:
-            rest_repr = ', ' + repr(self.rest)
+            rest_repr = ", " + repr(self.rest)
         else:
-            rest_repr = ''
-        return 'Link(' + repr(self.first) + rest_repr + ')'
+            rest_repr = ""
+        return "Link(" + repr(self.first) + rest_repr + ")"
 
     def __str__(self):
-        string = '<'
+        string = "<"
         while self.rest is not Link.empty:
-            string += str(self.first) + ' '
+            string += str(self.first) + " "
             self = self.rest
-        return string + str(self.first) + '>'
+        return string + str(self.first) + ">"
 
 
 class Tree:
@@ -277,6 +297,7 @@ class Tree:
     >>> t.branches[1].is_leaf()
     True
     """
+
     def __init__(self, label, branches=[]):
         self.label = label
         for branch in branches:
@@ -288,18 +309,17 @@ class Tree:
 
     def __repr__(self):
         if self.branches:
-            branch_str = ', ' + repr(self.branches)
+            branch_str = ", " + repr(self.branches)
         else:
-            branch_str = ''
-        return 'Tree({0}{1})'.format(repr(self.label), branch_str)
+            branch_str = ""
+        return "Tree({0}{1})".format(repr(self.label), branch_str)
 
     def __str__(self):
-        return '\n'.join(self.indented())
+        return "\n".join(self.indented())
 
     def indented(self):
         lines = []
         for b in self.branches:
             for line in b.indented():
-                lines.append('  ' + line)
+                lines.append("  " + line)
         return [str(self.label)] + lines
-
