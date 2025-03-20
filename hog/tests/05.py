@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '6fc1d2bf205571bd49961b546ba1d431',
+          'answer': 'While score0 and score1 are both less than goal',
           'choices': [
             'While score0 and score1 are both less than goal',
             'While at least one of score0 or score1 is less than goal',
@@ -13,7 +13,7 @@ test = {
             'While score1 is less than goal'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           The variables score0 and score1 are the scores for Player 0
@@ -22,19 +22,19 @@ test = {
           """
         },
         {
-          'answer': '9fcf5bd3b988423436437a2d732ec52c',
+          'answer': 'A function that returns the number of dice a player will roll',
           'choices': [
             'The number of dice a player will roll',
             'A function that returns the number of dice a player will roll',
             "A player's desired turn outcome"
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'What is a strategy in the context of this game?'
         },
         {
-          'answer': '13a801ae9c17eda6b11469838c9dabc8',
+          'answer': 'strategy1(score1, score0)',
           'choices': [
             'strategy1(score1, score0)',
             'strategy1(score0, score1)',
@@ -42,7 +42,7 @@ test = {
             'strategy1(score0)'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           If strategy1 is Player 1's strategy function, score0 is
@@ -52,7 +52,7 @@ test = {
           """
         },
         {
-          'answer': 'a66dc92bea7ccf4e90441e4a7fe5fcd8',
+          'answer': '0',
           'choices': [
             '0',
             '1',
@@ -60,7 +60,7 @@ test = {
             '10'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           Player 0 has a score of 55, Player 1 has a score of 22,

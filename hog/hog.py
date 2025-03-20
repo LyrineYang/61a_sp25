@@ -20,8 +20,16 @@ def roll_dice(num_rolls, dice=six_sided):
     # These assert statements ensure that num_rolls is a positive integer.
     assert type(num_rolls) == int, "num_rolls must be an integer."
     assert num_rolls > 0, "Must roll at least once."
-    # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
+    rolled_one = False
+    sum_roll = 0
+    for _ in range(num_rolls):
+        roll_result = dice()
+        if roll_result == 1:
+            rolled_one = True
+        sum_roll += roll_result
+    if rolled_one:
+        return 1
+    return sum_roll
     # END PROBLEM 1
 
 
@@ -32,8 +40,9 @@ def boar_brawl(player_score, opponent_score):
     opponent_score:   The total score of the other player.
 
     """
-    # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
+    score = 3 * abs(player_score%10 - (opponent_score%100)//10)
+    return max(score,1)
+
     # END PROBLEM 2
 
 
@@ -51,8 +60,10 @@ def take_turn(num_rolls, player_score, opponent_score, dice=six_sided):
     assert num_rolls >= 0, "Cannot roll a negative number of dice in take_turn."
     assert num_rolls <= 10, "Cannot roll more than 10 dice."
     # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
+    if num_rolls == 0:
+        return boar_brawl(player_score,opponent_score)
+    else:
+        return roll_dice(num_rolls,dice)
 
 
 def simple_update(num_rolls, player_score, opponent_score, dice=six_sided):
@@ -77,15 +88,23 @@ def is_prime(n):
 
 def num_factors(n):
     """Return the number of factors of N, including 1 and N itself."""
-    # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 4
+
+    sum_factors = 0
+    for i in range(1,n+1):
+        if n % i == 0:
+            sum_factors += 1
+    return sum_factors
+
 
 
 def sus_points(score):
     """Return the new score of a player taking into account the Sus Fuss rule."""
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    if num_factors(score) == 3 or num_factors(score) == 4:
+        while not is_prime(score):
+            score += 1
+    return score
+
     # END PROBLEM 4
 
 
@@ -94,8 +113,9 @@ def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
     PLAYER_SCORE and then rolls NUM_ROLLS DICE, *including* Sus Fuss.
     """
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 4
+    score = simple_update(num_rolls, player_score, opponent_score, dice)
+    score = sus_points(score)
+    return score
 
 
 def always_roll_5(score, opponent_score):
@@ -132,7 +152,12 @@ def play(strategy0, strategy1, update, score0=0, score1=0, dice=six_sided, goal=
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while score0 < goal and score1 < goal:
+        if who:
+            score1 = update(strategy1(score1,score0),score1,score0,dice)
+        else:
+            score0 = update(strategy0(score0,score1),score0,score1,dice)
+        who = 1 - who
     # END PROBLEM 5
     return score0, score1
 
@@ -158,7 +183,9 @@ def always_roll(n):
     assert n >= 0 and n <= 10
 
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    def always_return_n(score,opponentscore):
+        return n
+    return always_return_n
     # END PROBLEM 6
 
 
@@ -190,7 +217,13 @@ def is_always_roll(strategy, goal=GOAL):
     False
     """
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    value = strategy(0,0)
+    for i in range(goal):
+        for j in range(goal):
+            if strategy(i,j) != value:
+                return False
+    return True
+
     # END PROBLEM 7
 
 
@@ -207,7 +240,13 @@ def make_averaged(original_function, times_called=1000):
     """
 
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def helper(*args):
+        sum = 0
+        for _ in range(times_called):
+            sum += original_function(*args)
+        return sum / times_called
+    return helper
+
     # END PROBLEM 8
 
 
@@ -219,9 +258,16 @@ def max_scoring_num_rolls(dice=six_sided, times_called=1000):
     >>> max_scoring_num_rolls(dice)
     1
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    max_average = make_averaged(roll_dice,times_called)(1,dice)
+    max_num_rolls = 1 
+    for num_rolls in range(2, 11):
+        average = make_averaged(roll_dice,times_called)(num_rolls,dice)
+        if average > max_average:
+            max_average =  average
+            max_num_rolls = num_rolls
+    return max_num_rolls
+
+
 
 
 def winner(strategy0, strategy1):
@@ -266,6 +312,8 @@ def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore the Sus Fuss rule.
     """
     # BEGIN PROBLEM 10
+    if boar_brawl(score,opponent_score) >= threshold:
+        return 0
     return num_rolls  # Remove this line once implemented.
     # END PROBLEM 10
 
@@ -274,9 +322,10 @@ def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
     """This strategy returns 0 dice when rolling 0 increases the score by at least
     THRESHOLD points, and returns NUM_ROLLS otherwise. Consider both the Boar Brawl and
     Suss Fuss rules."""
-    # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
-    # END PROBLEM 11
+    new_score = boar_brawl(score,opponent_score)
+    if (sus_points(score + new_score) - score) >= threshold:
+        return 0
+    return num_rolls
 
 
 def final_strategy(score, opponent_score):

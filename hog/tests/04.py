@@ -7,61 +7,55 @@ test = {
         {
           'code': r"""
           >>> num_factors(1)
-          c4933a0dd093653b499b3bff4a4c8ec8
-          # locked
+          1
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> num_factors(2)
-          62a329e8634e8fe7dd0b7f2080aba699
-          # locked
+          2
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> num_factors(3)
-          62a329e8634e8fe7dd0b7f2080aba699
-          # locked
+          2
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> num_factors(9)
-          e6847a6abd46677c707da754189080c9
-          # locked
+          3
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> num_factors(28)
-          3086e969d799e68cd8468df232597f2c
-          # locked
+          6
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> num_factors(64)
-          bd13fb79db576dcc5054025fb0039643
-          # locked
+          7
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -76,11 +70,10 @@ test = {
         {
           'code': r"""
           >>> num_factors(97)
-          62a329e8634e8fe7dd0b7f2080aba699
-          # locked
+          2
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -95,21 +88,19 @@ test = {
         {
           'code': r"""
           >>> sus_points(1)
-          c4933a0dd093653b499b3bff4a4c8ec8
-          # locked
+          1
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> sus_points(21)
-          f8205a9c61f815c0fdd6e3d5c81074b7
-          # locked
+          23
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -124,21 +115,19 @@ test = {
         {
           'code': r"""
           >>> sus_points(62)
-          d4c333837750354e9c706c73dd36851a
-          # locked
+          67
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> sus_points(64)
-          3fad5a2831e764388c5998ba3be5fc1f
-          # locked
+          64
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -180,40 +169,34 @@ test = {
         {
           'code': r"""
           >>> simple_update(2, 5, 7, make_test_dice(2, 4))
-          62d21c0af6a781863aa95a5ba2138e77
-          # locked
+          11
           >>> sus_update(2, 5, 7, make_test_dice(2, 4)) # is 11 a sus number?
-          62d21c0af6a781863aa95a5ba2138e77
-          # locked
+          11
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> simple_update(0, 15, 37) # what happens when you roll 0 dice?
-          383b6800a83090c27da97b04ffebb176
-          # locked
+          21
           >>> sus_update(0, 15, 37) # is 21 a sus number?
-          f8205a9c61f815c0fdd6e3d5c81074b7
-          # locked
+          23
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
           'code': r"""
           >>> simple_update(2, 2, 3, make_test_dice(4))
-          8a27d52d885dfcd62a4a92cbfe64d30a
-          # locked
+          10
           >>> sus_update(2, 2, 3, make_test_dice(4)) # is 10 a sus number?
-          62d21c0af6a781863aa95a5ba2138e77
-          # locked
+          11
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
