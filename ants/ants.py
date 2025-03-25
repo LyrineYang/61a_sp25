@@ -22,7 +22,7 @@ class Place:
         """
         self.name = name
         self.exit = exit
-        self.bees = []  # A list of Bees
+        self.bees = []  # A list of Bees''
         self.ant = None  # An Ant
         self.entrance = None  # A Place
         if self.exit != None:
@@ -103,7 +103,7 @@ class Ant(Insect):
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
     is_container = False
-    # ADD CLASS ATTRIBUTES HERE for opt1
+    block_path = True
 
     def __init__(self, health=1):
         super().__init__(health)
@@ -434,11 +434,22 @@ class SlowThrower(ThrowerAnt):
     food_cost = 6
     # BEGIN Problem EC 1
     implemented = False  # Change to True to view in the GUI
-    # END Problem EC 1
 
     def throw_at(self, target):
-        # BEGIN Problem EC 1
-        "*** YOUR CODE HERE ***"
+        super().throw_at(target)
+        target.slow_turns = 5
+
+        def slow_action(gamestate):
+            if gamestate.time % 2 == 0 and target.slow_turns:
+                Bee.action(target, gamestate)
+                target.slow_turns -= 1
+            elif target.slow_turns:
+                target.slow_turns -= 1
+            else:
+                Bee.action(self, gamestate)
+
+        target.action = slow_action
+
         # END Problem EC 1
 
 
@@ -463,7 +474,7 @@ class NinjaAnt(Ant):
     name = "Ninja"
     damage = 1
     food_cost = 5
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    block_path = False
     # BEGIN Problem EC 3
     implemented = False  # Change to True to view in the GUI
     # END Problem EC 3

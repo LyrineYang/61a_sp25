@@ -235,7 +235,13 @@ def two_list(vals, counts):
     >>> c
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
-    "*** YOUR CODE HERE ***"
+    new_link = Link.empty
+    vals = vals[::-1]
+    counts = counts[::-1]
+    for i in range(len(vals)):
+        for _ in range(counts[i]):
+            new_link = Link(vals[i], new_link)
+    return new_link
 
 
 class Link:
