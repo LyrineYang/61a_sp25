@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '9bef332e7a4ee9e0a88f50e7c8102859',
+          'answer': 'Call expressions and special forms',
           'choices': [
             'Call expressions and special forms',
             'Only call expressions',
@@ -13,12 +13,12 @@ test = {
             'All expressions are represented as Pairs'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'What types of expressions are represented as Pairs?'
         },
         {
-          'answer': '78281c8aa60cfeb28cc419e45eded414',
+          'answer': 'env.lookup(expr)',
           'choices': [
             'env.find(name)',
             'scheme_symbolp(expr)',
@@ -26,12 +26,12 @@ test = {
             'scheme_forms.SPECIAL_FORMS[first](rest, env)'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'What expression in the body of scheme_eval finds the value of a name?'
         },
         {
-          'answer': '8e2984abf58403830db140aa255877e8',
+          'answer': 'Check if the first element in the list is a symbol and that the symbol is in the dictionary SPECIAL_FORMS',
           'choices': [
             r"""
             Check if the first element in the list is a symbol and that the
@@ -41,12 +41,12 @@ test = {
             'Check if the expression is in the dictionary SPECIAL_FORMS'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'How do we know if a given combination is a special form?'
         },
         {
-          'answer': '760951e4c03e3f903a39510d6f9260cd',
+          'answer': 'I and II',
           'choices': [
             'I only',
             'II only',
@@ -57,7 +57,7 @@ test = {
             'I, II and III'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': r"""
           What is the difference between applying builtins and applying user-defined procedures?
@@ -72,7 +72,7 @@ test = {
           """
         },
         {
-          'answer': '4b42cf68a456920260c67272f303ed1e',
+          'answer': 'SchemeError("1 is not callable")',
           'choices': [
             'SchemeError("malformed list: (1)")',
             'SchemeError("1 is not callable")',
@@ -80,7 +80,7 @@ test = {
             'SchemeError("unknown identifier: 1")'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'What exception should be raised for the expression (1)?'
         }
