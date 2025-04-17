@@ -35,12 +35,12 @@ class Frame:
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 1
-        while self.parent is not None:
-            cur_value = self.bindings[symbol]
-            if cur_value is not None:
-                return cur_value
-            self = self.parent
-        # END PROBLEM 1
+        current = self
+        while current is not None:
+            if symbol in current.bindings:
+                return current.bindings[symbol]
+            current = current.parent
+            # END PROBLEM 1
         raise SchemeError("unknown identifier: {0}".format(symbol))
 
     def make_child_frame(self, formals, vals):

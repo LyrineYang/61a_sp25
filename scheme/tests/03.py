@@ -8,22 +8,18 @@ test = {
           'code': r"""
           >>> expr = read_line('(+ 2 2)')
           >>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
-          9871f5a05c2faba882ad6bd9ba1b836e
-          # locked
+          4
           >>> scheme_eval(Pair('+', Pair(2, Pair(2, nil))), create_global_frame()) # Type SchemeError if you think this errors
-          9871f5a05c2faba882ad6bd9ba1b836e
-          # locked
+          4
           >>> expr = read_line('(+ (+ 2 2) (+ 1 3) (* 1 4))')
           >>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
-          13a5fc7a82d9f1bfccec44e4ff030828
-          # locked
+          12
           >>> expr = read_line('(yolo)')
           >>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
-          487e5d855a4749c37e82d995b26091f7
-          # locked
+          SchemeError
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],
@@ -40,14 +36,12 @@ test = {
         {
           'code': r"""
           scm> (* (+ 3 2) (+ 1 7)) ; Type SchemeError if you think this errors
-          bd9fffcaea111fa85d4faa8f379b223c
-          # locked
+          40
           scm> (1 2) ; Type SchemeError if you think this errors
-          487e5d855a4749c37e82d995b26091f7
-          # locked
+          SchemeError
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {

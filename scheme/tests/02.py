@@ -10,11 +10,10 @@ test = {
           >>> twos = Pair(2, Pair(2, nil))
           >>> plus = BuiltinProcedure(scheme_add) # + procedure
           >>> scheme_apply(plus, twos, env) # Type SchemeError if you think this errors
-          9871f5a05c2faba882ad6bd9ba1b836e
-          # locked
+          4
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -22,11 +21,10 @@ test = {
           >>> env = create_global_frame()
           >>> plus = BuiltinProcedure(scheme_add) # + procedure
           >>> scheme_apply(plus, nil, env) # Remember what (+) evaluates to in scheme
-          fd0160de2f72728a572c943666b1d89b
-          # locked
+          0
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -35,11 +33,10 @@ test = {
           >>> twos = Pair(2, Pair(2, nil))
           >>> oddp = BuiltinProcedure(scheme_oddp) # odd? procedure
           >>> scheme_apply(oddp, twos, env) # Type SchemeError if you think this errors
-          487e5d855a4749c37e82d995b26091f7
-          # locked
+          SchemeError
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -181,11 +178,10 @@ test = {
           ...     return arg + (1 if env else 0)
           >>> test_procedure = BuiltinProcedure(test_func, True)
           >>> scheme_apply(test_procedure, one, env)
-          725437f086fad00d39b3b3621cfe9fef
-          # locked
+          2
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],

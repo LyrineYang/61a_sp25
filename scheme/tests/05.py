@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': '7aff980b7b82640d20ecb441594bd3ed',
+          'answer': 'Pair(A, nil), where: A is the quoted expression',
           'choices': [
             r"""
             Pair('quote', Pair(A, nil)), where:
@@ -25,7 +25,7 @@ test = {
             """
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False,
           'question': 'What is the structure of the expressions argument to do_quote_form?'
         }
@@ -38,18 +38,15 @@ test = {
         {
           'code': r"""
           >>> do_quote_form(Pair(3, nil), global_frame)
-          71373a588b7d2da6b021a6a9cb2a416f
-          # locked
+          3
           >>> do_quote_form(Pair('hi', nil), global_frame)
-          7416b5e74e5b93f7c641ed723332329a
-          # locked
+          'hi'
           >>> expr = Pair(Pair('+', Pair('x', Pair(2, nil))), nil)
           >>> do_quote_form(expr, global_frame) # Make sure to use Pair notation
-          58506efc2dd19b7df05929e8a720929d
-          # locked
+          Pair('+', Pair('x', Pair(2, nil)))
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],
