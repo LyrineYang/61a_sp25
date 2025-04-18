@@ -7,14 +7,12 @@ test = {
         {
           'code': r"""
           scm> (lambda (x y) (+ x y)) ;; An lambda procedure is displayed exactly as it is written
-          d67e9003bbdbf8509fca26654472810c
-          # locked
+          (lambda (x y) (+ x y))
           scm> (lambda (x)) ; type SchemeError if you think this causes an error
-          487e5d855a4749c37e82d995b26091f7
-          # locked
+          SchemeError
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {
@@ -49,21 +47,12 @@ test = {
           >>> lambda_line = read_line("(lambda (a b c) (+ a b c))")
           >>> lambda_proc = do_lambda_form(lambda_line.rest, env)
           >>> lambda_proc.formals # use single quotes ' around strings in your answer
-          7476c3e5acb9272c1fa874fb4706b503
-          # locked
-          # choice: Pair('a', Pair('b', Pair('c', nil)))
-          # choice: Pair('+', Pair('a', Pair('b', Pair('c', nil))))
-          # choice: Pair(Pair('a', Pair('b', Pair('c', nil))))
+          Pair('a', Pair('b', Pair('c', nil)))
           >>> lambda_proc.body # the body is a *Scheme list* of expressions! Make sure your answer is a properly nested Pair.
-          63850387e7e0a61d38198ef86d614d00
-          # locked
-          # choice: Pair(Pair('+', Pair('a', Pair('b', Pair('c', nil)))), nil)
-          # choice: Pair('+', Pair('a', Pair('b', Pair('c', nil))))
-          # choice: Pair('+', 'a', 'b', 'c')
-          # choice: Pair('a', Pair('b', Pair('c')))
+          Pair(Pair('+', Pair('a', Pair('b', Pair('c', nil)))), nil)
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         },
         {

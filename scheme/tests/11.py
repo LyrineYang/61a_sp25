@@ -7,20 +7,16 @@ test = {
         {
           'code': r"""
           scm> (define y 1)
-          e8964e1ed0bd9300da7e470e362a919c
-          # locked
+          y
           scm> (define f (mu (x) (+ x y)))
-          3d7c962867998a3bb3bb3acf6178a0fd
-          # locked
+          f
           scm> (define g (lambda (x y) (f (+ x x))))
-          8f64929776745634a5ee9a83f3a90e8a
-          # locked
+          g
           scm> (g 3 7)
-          3f006794a0b556ae60c95c5d021df148
-          # locked
+          13
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],

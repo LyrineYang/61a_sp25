@@ -10,27 +10,23 @@ test = {
           ....       ((> 2 4) 6)
           ....       ((< 2 5) 7)
           ....       (else 8))
-          b6a5b99bc50d7865f4bc128543f68108
-          # locked
+          7
           scm> (cond ((> 2 3) 5)
           ....       ((> 2 4) 6)
           ....       (else 8))
-          e379be012ed2005e67131f006b7f6085
-          # locked
+          8
           scm> (cond ((= 1 1))
           ....       ((= 4 4) 'huh)
           ....       (else 'no))
-          362a13f62b8278cff7410c0d72fbb640
-          # locked
+          #t
           scm> (cond ((and #f 2) 'whats)
           ....       ((and 1 #t 2))
           ....       ((> 2 3) 'going)
           ....       (else 'on))
-          725437f086fad00d39b3b3621cfe9fef
-          # locked
+          2
           """,
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'multiline': False
         }
       ],
